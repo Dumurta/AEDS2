@@ -1,55 +1,88 @@
-# Prerequisites
-*.d
-
-# Object files
+# ----------------------------------------
+# Compilação C/C++ (Linux e Windows)
+# ----------------------------------------
 *.o
-*.ko
 *.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
 *.so
-*.so.*
-*.dylib
-
-# Executables
+*.dll
 *.exe
 *.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+*.a
+*.lib
 
-# Debug files
+# Arquivos de depuração
+*.gch
+*.pch
+*.stackdump
 *.dSYM/
-*.su
-*.idb
-*.pdb
+*.gcda
+*.gcno
+*.gcov
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Makefiles e cmake gerados
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+build/
+Debug/
+Release/
+x64/
+*.log
 
-# debug information files
-*.dwo
+# ----------------------------------------
+# Java
+# ----------------------------------------
+*.class
+*.jar
+*.war
+*.ear
+
+# Arquivos de compilação temporários
+*.iml
+*.ipr
+*.iws
+
+# Diretórios comuns de IDEs
+out/
+target/
+bin/
+build/
+.gradle/
+.mvn/
+
+# Arquivos de cache e configs locais
+*.log
+*.idea/
+*.project
+*.classpath
+*.settings/
+*.factorypath
+
+# ----------------------------------------
+# Sistema operacional
+# ----------------------------------------
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.nfs*
+
+# ----------------------------------------
+# Outros
+# ----------------------------------------
+*.swp
+*.swo
+*.tmp
+*.bak
+*.old
