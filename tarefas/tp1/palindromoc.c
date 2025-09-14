@@ -62,7 +62,7 @@ int ehPalindromoRecursivo(char s[], int i, int j)
 // funcao principal para verificar palindromo
 bool ehPalindromo(char s[])
 {
-    int tam = compriwwwmento(s);
+    int tam = comprimento(s);
     bool resposta = true;
 
     if (tam > 0)
