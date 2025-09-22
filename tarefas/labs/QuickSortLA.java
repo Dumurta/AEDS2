@@ -1,10 +1,11 @@
-public class QuickSortF{
-    public static void QuickSortFirst(int[] array, int left, int right)
+public class QuickSortLA {
+    public static void QuickSortLast( int[] array, int left, int right)
     {
+        int pivot = right;
         int i = left, j = right;
         int temp;
-        int pivot = array[left];
-        while(i <= j){
+        while(i <= j)
+        {
             while(array[i] < pivot)
             {
                 i++;
@@ -18,16 +19,17 @@ public class QuickSortF{
                 temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
-                i++;
-                j--;
             }
+        }//end while
+        if( left < j )
+        {
+            QuickSortLast(array, left, j);
         }
-        if(left < j)
-            QuickSortFirst(array, left, j);
         if(i < right)
-            QuickSortFirst(array, i, right);
-    }
-    
+        {
+            QuickSortLast(array, i, right);
+        }
+    }//end quicksortLast
     public static void imprimir(int[] array)
     {
         int n = array.length;
@@ -41,7 +43,7 @@ public class QuickSortF{
         int[] arr = {0,1, 2, 3, 4, 5, 6, 7, 8, 9};
         
         imprimir(arr);
-        QuickSortFirst(arr, 0, arr.length - 1);
+        QuickSortLast(arr, 0, arr.length - 1);
         imprimir(arr);
     }
 }
