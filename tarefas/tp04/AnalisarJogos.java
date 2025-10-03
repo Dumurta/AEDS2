@@ -1,26 +1,24 @@
 public class AnalisarJogos {
-    static class Jogos{
-        private int id, donos, m_score, u_score, conquistas;
-        private String name, pubs, devs;
-        private String[] data, lang, categories, genres, tags;
+    static class Game{
+        private int id;
+        private int estimatedOwners;
+        private int metacriticScore;
+        private int achievements;
+        private float price;
+        private float userScore;
+        private String name;
+        private String[] supportedLanguages;
+        private String[] publishers;
+        private String[] developers;
+        private String[] categories;
+        private String[] genres;
+        private String[] tags;
+        private String[] releaseDate;
 
-        public Jogos(int id, int donos, int m_score, int u_score, int conquistas, 
-        String name, String pubs, String devs, String[] data, String[] lang, 
-        String[] categories, String[] tags, String[] genres)
+        public Game(String linhaCsv)
         {
-                this.id = id;
-                this.donos = donos;
-                this.m_score = m_score;
-                this.u_score = u_score;
-                this.conquistas = conquistas;
-                this.name = name;
-                this.pubs = pubs;
-                this.devs = devs;
-                this.data = data;
-                this.lang = lang;
-                this.categories = categories;
-                this.genres = genres;
-                this.tags = tags;
+            String[] lista = linhaCsv.split(",");
+
         }
 
         
