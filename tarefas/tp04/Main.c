@@ -1,7 +1,4 @@
-/**
- * Nao consegui fazer com que o programa tivesse uma nota maior que 46% nao compreendi bem oq ta acontencendo
- * devido a alguns problemas pessoais terei que fazer o envio dessa forma mesmo, com a nota mais baix
- */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -144,51 +141,73 @@ long extrair_longo(const char *str)
 
 float extrair_preco(const char *str)
 {
-    if (strstr(str, "Free") != NULL || strstr(str, "free") != NULL)
+    float result = 0.0;
+    if (strstr(str, "Free") == NULL && strstr(str, "free") == NULL)
     {
-        return 0.0;
-    }
-    char num[100];
-    int idx = 0;
-    int i = 0;
-    while (str[i] != '\0' && idx < 99)
-    {
-        if (eh_digito(str[i]) || str[i] == '.')
+        char num[100];
+        int idx = 0;
+        int i = 0;
+        while (str[i] != '\0' && idx < 99)
         {
-            num[idx] = str[i];
-            idx = idx + 1;
+            if (eh_digito(str[i]) || str[i] == '.')
+            {
+                num[idx] = str[i];
+                idx = idx + 1;
+            }
+            i = i + 1;
         }
-        i = i + 1;
+        num[idx] = '\0';
+        if (idx > 0)
+        {
+            result = atof(num);
+        }
+        else
+        {
+            result = 0.0;
+        }
     }
-    num[idx] = '\0';
-    return (idx > 0) ? atof(num) : 0.0;
+    else
+    {
+        result = 0.0;
+    }
+    return result;
 }
 
 double extrair_user(const char *str)
 {
-    if (str[0] == '\0' || strstr(str, "tbd") != NULL)
+    double result = -1.0;
+    if (!(str[0] == '\0' || strstr(str, "tbd") != NULL))
     {
-        return -1.0;
-    }
-    char num[100];
-    int idx = 0;
-    int i = 0;
-    while (str[i] != '\0' && idx < 99)
-    {
-        if (eh_digito(str[i]) || str[i] == '.' || str[i] == ',')
+        char num[100];
+        int idx = 0;
+        int i = 0;
+        while (str[i] != '\0' && idx < 99)
         {
-            num[idx] = (str[i] == ',') ? '.' : str[i];
-            idx = idx + 1;
+            if (eh_digito(str[i]) || str[i] == '.' || str[i] == ',')
+            {
+                num[idx] = (str[i] == ',') ? '.' : str[i];
+                idx = idx + 1;
+            }
+            i = i + 1;
         }
-        i = i + 1;
+        num[idx] = '\0';
+        if (idx > 0)
+        {
+            result = atof(num);
+        }
+        else
+        {
+            result = -1.0;
+        }
     }
-    num[idx] = '\0';
-    return (idx > 0) ? atof(num) : -1.0;
+    return result;
 }
 
 void formatar_data(char *dest, const char *src)
 {
     char temp[100];
+    char out[20];
+    out[0] = '\0';
     meu_strcpy(temp, src);
     trim(temp);
 
@@ -205,75 +224,83 @@ void formatar_data(char *dest, const char *src)
 
     if (apenas_numeros && meu_strlen(temp) == 4)
     {
-        sprintf(dest, "01/01/%s", temp);
-        return;
+        snprintf(out, sizeof(out), "01/01/%s", temp);
     }
-
-    char *meses[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-    char *nums[] = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
-
-    int m = 0;
-    while (m < 12)
+    else
     {
-        if (strstr(temp, meses[m]) != NULL)
+        char *meses[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        char *nums[] = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+
+        int m = 0;
+        while (m < 12)
         {
-            char dia[5] = "01";
-            char ano[10] = "";
-
-            char *pos = strstr(temp, meses[m]);
-            char *p = pos - 1;
-
-            while (p >= temp && (*p == ' ' || *p == ','))
+            if (strstr(temp, meses[m]) != NULL)
             {
-                p = p - 1;
-            }
+                char dia[5] = "01";
+                char ano[10] = "";
 
-            char *fim_dia = p;
-            while (p >= temp && eh_digito(*p))
-            {
-                p = p - 1;
-            }
-            char *ini_dia = p + 1;
+                char *pos = strstr(temp, meses[m]);
+                char *p = pos - 1;
 
-            if (ini_dia <= fim_dia)
-            {
-                int tam = fim_dia - ini_dia + 1;
-                if (tam == 1)
+                while (p >= temp && (*p == ' ' || *p == ','))
                 {
-                    dia[0] = '0';
-                    dia[1] = *ini_dia;
-                    dia[2] = '\0';
+                    p = p - 1;
                 }
-                else if (tam >= 2)
+
+                char *fim_dia = p;
+                while (p >= temp && eh_digito(*p))
                 {
-                    dia[0] = ini_dia[0];
-                    dia[1] = ini_dia[1];
-                    dia[2] = '\0';
+                    p = p - 1;
                 }
-            }
+                char *ini_dia = p + 1;
 
-            p = pos + meu_strlen(meses[m]);
-            while (*p != '\0' && (eh_digito(*p) == 0))
-            {
-                p = p + 1;
-            }
+                if (ini_dia <= fim_dia)
+                {
+                    int tam = fim_dia - ini_dia + 1;
+                    if (tam == 1)
+                    {
+                        dia[0] = '0';
+                        dia[1] = *ini_dia;
+                        dia[2] = '\0';
+                    }
+                    else if (tam >= 2)
+                    {
+                        dia[0] = ini_dia[0];
+                        dia[1] = ini_dia[1];
+                        dia[2] = '\0';
+                    }
+                }
 
-            int ai = 0;
-            while (*p != '\0' && eh_digito(*p) && ai < 4)
-            {
-                ano[ai] = *p;
-                ai = ai + 1;
-                p = p + 1;
-            }
-            ano[ai] = '\0';
+                p = pos + meu_strlen(meses[m]);
+                while (*p != '\0' && (eh_digito(*p) == 0))
+                {
+                    p = p + 1;
+                }
 
-            sprintf(dest, "%s/%s/%s", dia, nums[m], ano);
-            return;
+                int ai = 0;
+                while (*p != '\0' && eh_digito(*p) && ai < 4)
+                {
+                    ano[ai] = *p;
+                    ai = ai + 1;
+                    p = p + 1;
+                }
+                ano[ai] = '\0';
+
+                snprintf(out, sizeof(out), "%s/%s/%s", dia, nums[m], ano);
+                break;
+            }
+            m = m + 1;
         }
-        m = m + 1;
     }
 
-    meu_strcpy(dest, "01/01/0000");
+    if (out[0] == '\0')
+    {
+        meu_strcpy(dest, "01/01/0000");
+    }
+    else
+    {
+        meu_strcpy(dest, out);
+    }
 }
 
 void processar_lista(char *dest, const char *src)
@@ -320,7 +347,6 @@ void processar_lista(char *dest, const char *src)
             item[item_i] = '\0';
             trim(item);
 
-            // remove aspas simples/duplas internas do item
             char clean[MAX_FIELD];
             int ci = 0;
             int k = 0;
@@ -485,10 +511,12 @@ void criar_jogo(Jogo *j, char campos[][MAX_FIELD], int n)
 
 int ler_arquivo(const char *caminho, Jogo *jogos)
 {
+    int result = 0;
     FILE *f = fopen(caminho, "r");
     if (f == NULL)
     {
-        return 0;
+        result = 0;
+        goto end_ler;
     }
 
     char linha[MAX_LINE];
@@ -523,7 +551,10 @@ int ler_arquivo(const char *caminho, Jogo *jogos)
     }
 
     fclose(f);
-    return total;
+    result = total;
+
+end_ler:
+    return result;
 }
 
 void imprimir(Jogo *j)
@@ -536,23 +567,26 @@ void imprimir(Jogo *j)
 
 int main()
 {
+    int exit_code = 0;
     Jogo *jogos = (Jogo *)malloc(MAX_GAMES * sizeof(Jogo));
     if (jogos == NULL)
     {
-        return 1;
+        exit_code = 1;
+        goto end_main;
     }
 
     int total = ler_arquivo("/tmp/games.csv", jogos);
 
     char entrada[100];
-    while (fgets(entrada, 100, stdin) != NULL)
+    int finished = 0;
+    while (!finished && fgets(entrada, 100, stdin) != NULL)
     {
         trim(entrada);
 
         if (strcmp(entrada, "FIM") == 0)
         {
-            free(jogos);
-            return 0;
+            finished = 1;
+            break;
         }
 
         int id = atoi(entrada);
@@ -569,5 +603,7 @@ int main()
     }
 
     free(jogos);
-    return 0;
+
+end_main:
+    return exit_code;
 }
