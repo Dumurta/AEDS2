@@ -1,3 +1,4 @@
+import java.util.*;
 class No{
     int elemento;
     No esq;
@@ -68,6 +69,15 @@ public class ArvoreBin{
             caminharPre(i.dir);
         }
     }
-    
-
+}
+class LabArvoreBinaria{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String line = sc.nextLine();
+        while(sc.hasNext()){
+            if(line.equals("I")){
+                
+            }
+        }
+    }
 }
