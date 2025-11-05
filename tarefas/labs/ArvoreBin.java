@@ -32,6 +32,36 @@ public class ArvoreBin{
         }
         return i;
     }
+
+    No remover (int x, No noAtual){
+        if(noAtual == null){
+            System.out.println("Elemento nao encontrado.\n");
+        }else if( x < noAtual.elemento){
+            noAtual.esq = remover(x, noAtual.esq);
+        }else if(x > noAtual.elemento){
+            noAtual.dir = remover(x, noAtual.dir);
+        }else if (noAtual.dir == null){
+            noAtual = noAtual.esq;
+        }else if(noAtual.esq ==null){
+            noAtual = noAtual.dir;
+        }
+        else{
+            No substituo = maiorEsq(noAtual, noAtual.esq);
+
+            noAtual.elemento = substituo.elemento;
+
+            noAtual.esq = remover(substituo.elemento, noAtual.esq);
+        }
+        return noAtual;
+    }
+
+    No maiorEsq(No noAtual, No filho){
+        if(filho.dir != null){
+            filho = maiorEsq(noAtual, filho.esq);
+        }
+        return filho;
+    }
+    
     boolean pesquisar(int x){
         return pesquisar(x, raiz);
     }
